@@ -75,6 +75,22 @@ function make_grid() {
         btn.addEventListener('mouseenter', (event) => {
             if (isDrawing) paint(event.target);
         });
+        
+        btn.addEventListener('touchstart', (event) => {
+            event.preventDefault(); // Prevent scrolling
+            isDrawing = true;
+            paint(event.target);
+        });
+
+        btn.addEventListener('touchmove', (event) => {
+            event.preventDefault(); // Prevent scrolling
+            const touch = event.touches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (target && target.classList.contains('btn')) {
+                paint(target);
+            }
+        });
+
     }
 }
 
