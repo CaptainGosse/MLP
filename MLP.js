@@ -75,7 +75,7 @@ function make_grid() {
         btn.addEventListener('mouseenter', (event) => {
             if (isDrawing) paint(event.target);
         });
-        
+
         btn.addEventListener('touchstart', (event) => {
             event.preventDefault(); // Prevent scrolling
             isDrawing = true;
@@ -128,8 +128,15 @@ function paint(btn) {
 // Stop drawing on mouseup
 document.addEventListener('mouseup', () => {
     isDrawing = false;
-    console.log(pixel);
     
+    predict(pixel).then(prediction => {
+        pred.textContent = `MLP think the number is: ${prediction}`;
+    });
+});
+
+document.addEventListener('touchend', () => {
+    isDrawing = false;
+
     predict(pixel).then(prediction => {
         pred.textContent = `MLP think the number is: ${prediction}`;
     });
