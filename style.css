@@ -20,7 +20,7 @@ body{
     /*border-radius: 5%;*/
     grid-template-columns: repeat(28, 1fr);
     grid-template-rows: repeat(28, 1fr);
-    width: 90vh; /* Responsive width */
+    width: 100vh; /* Responsive width */
     max-width: 400px; /* Limit max size for larger screens */
     aspect-ratio: 1; /* Keeps the grid square */
     border: 3px solid #333333;
@@ -48,7 +48,7 @@ body{
 }
 
 #wrapper{
-    width: 90vh;
+    width: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;

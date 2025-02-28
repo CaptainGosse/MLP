@@ -56,7 +56,17 @@ async function predict(x_test) {
     const y_pred_test = softmax(z3);
 
     console.log(`Time taken: ${(performance.now() - start) / 1000} seconds`);
-    return y_pred_test.argMax(1).dataSync()[0];
+    let probabilities = await y_pred_test.data(); // Wait for the tensor data to be resolved
+    let confidence = Math.max(...probabilities); // Find the highest probability
+    console.log(confidence);
+    console.log(probabilities);
+    
+    if (confidence >= 0.9) {
+        return y_pred_test.argMax(1).dataSync()[0]; // Get the predicted class
+    } else {
+        return "nan"; // Not confident enough
+    }
+    
 }
 
 function make_grid() {
@@ -101,7 +111,7 @@ function paint(btn) {
     const col = id % 28;
 
     // Paint the center button black
-    btn.style.backgroundColor = '#F4EDD3';
+    btn.style.backgroundColor = 'gray';
     pixel[btn.id] = 1;
 
     // Paint the surrounding buttons gray
@@ -130,7 +140,12 @@ document.addEventListener('mouseup', () => {
     isDrawing = false;
     
     predict(pixel).then(prediction => {
-        pred.textContent = `MLP think the number is: ${prediction}`;
+        if (prediction == "nan"){
+            pred.textContent = "It’s probably not a number";     
+        }
+        else{
+            pred.textContent = `MLP think the number is: ${prediction}`;
+        }
     });
 });
 
